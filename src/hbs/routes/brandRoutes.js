@@ -37,6 +37,8 @@ function mapRedemption(doc) {
     percentage: d.percentage || '',
     phoneNumber: d.phoneNumber || '',
     date: d.date || '',
+    brandId: d.brandId || '',
+    Redeempin: d.Redeempin || '',
     // add if needed:
  
   };
@@ -110,38 +112,29 @@ router.post('/vender', authMiddleware, async (req, res) => {
 
 
 
-// POST /api/redemption/by-pin
-// body: { "pin": "142774" } or { "pin": "easypay" }
 router.post('/vender/redemption', authMiddleware, async (req, res) => {
   try {
-    const { pin } = req.body;
+    const { brandId } = req.body;
 
-    if (!pin) {
-      return res.status(400).json({ error: 'pin is required in body' });
+    if (!brandId) {
+      return res.status(400).json({ error: 'brandId is required in body' });
     }
 
-    let snapshot;
-
-    // special easypay case -> return all redemption records
-    if (pin.toLowerCase() === 'easypay') {
-      snapshot = await db.collection('hala_redeemed_discounts').get();
-    } else {
-      // find redemption by PIN
-      // assuming your redemption collection has a field 'pin'
-      snapshot = await db
-        .collection('hala_redeemed_discounts')
-        .where('pin', '==', pin)
-        .get();
-    }
+    // get only by brandId
+    const snapshot = await db
+      .collection('hala_redeemed_discounts')
+      .where('brandId', '==', brandId)
+      .get();
 
     const redemptions = snapshot.docs.map(mapRedemption);
 
     return res.json(redemptions);
   } catch (err) {
-    console.error('Error fetching redemption by pin:', err);
-    res.status(500).json({ error: 'Failed to fetch redemption data by pin' });
+    console.error('Error fetching redemption:', err);
+    res.status(500).json({ error: 'Failed to fetch redemption data' });
   }
 });
+
 
 
 
