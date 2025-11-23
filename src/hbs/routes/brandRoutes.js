@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { db } = require('../firebase_Connect/fbconnect'); // firebase.js ka path adjust karo
+const { db } = require('../../database/firebase'); // firebase.js ka path adjust karo
 const { authMiddleware } = require('../middleware/auth.middleware');
 
 

@@ -4,14 +4,17 @@ const mongoose = require("mongoose");
 const cors = require("cors");
 require("dotenv").config();
 
-// ROUTES
-const { router: employeeRouter, startEmployeeCron } = require("./src/ww-family/employeeSync");
+
+
+// HR SYSTEM
+const { router: employeeRouter, startEmployeeCron } = require("./src/database/hrSystem");
 const adminFormRoutes = require("./src/hr-system/routes/adminFormRoutes");
 const approvalPriorityRoutes = require("./src/hr-system/routes/approvalPriorityRoutes");
 const publicFormRoutes = require("./src/hr-system/routes/publicFormRoutes");
 const approvalRoutes = require("./src/hr-system/routes/approvalRoutes");
-const HrSystemData = require("./src/ww-family/get_Data_from_mongo");
 const managerRoutes = require("./src/hr-system/routes/managerRoutes");
+
+// Hala B Saudi
 const brandRoutes = require('./src/hbs/routes/brandRoutes');
 const authRoutesHBS = require("./src/hbs/routes/loginRoute");
 
@@ -52,14 +55,16 @@ app.use("/api/approvalPriority", approvalPriorityRoutes);
 app.use("/api/forms", publicFormRoutes);
 app.use("/api/approvals", approvalRoutes);
 
+// Hala B Saudi
 app.use("/auth", authRoutesHBS);
 app.use('/api/hbs', brandRoutes);
 
-// start
+
+
+
 const PORT = process.env.PORT || 3000; // Render supplies PORT
 app.listen(PORT, () => {
   console.log("Server running on port", PORT);
-  console.log("🚀 APP_BASE_URL:",process.env.APP_BASE_URL);
 });
 
 
