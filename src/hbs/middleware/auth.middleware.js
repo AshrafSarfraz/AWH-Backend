@@ -1,6 +1,6 @@
 // authentication/auth.middleware.js
 const jwt = require("jsonwebtoken");
-const { JWT_SECRET } = require("../controllers/login.controller");
+const { JWT_SECRET } = require("../controllers/externalApi/login.controller");
 
 function authMiddleware(req, res, next) {
   const authHeader = req.headers["authorization"];

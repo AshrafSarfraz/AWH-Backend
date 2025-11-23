@@ -1,7 +1,8 @@
 const express = require('express');
 const router = express.Router();
-const { db } = require('../../database/firebase'); // firebase.js ka path adjust karo
-const { authMiddleware } = require('../middleware/auth.middleware');
+const { db } = require('../../../database/firebase'); // firebase.js ka path adjust karo
+const { authMiddleware } = require('../../middleware/auth.middleware');
+
 
 
 // helper: Firestore brand -> API brand

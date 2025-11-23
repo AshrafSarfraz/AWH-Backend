@@ -15,8 +15,8 @@ const approvalRoutes = require("./src/hr-system/routes/approvalRoutes");
 const managerRoutes = require("./src/hr-system/routes/managerRoutes");
 
 // Hala B Saudi
-const brandRoutes = require('./src/hbs/routes/brandRoutes');
-const authRoutesHBS = require("./src/hbs/routes/loginRoute");
+const brandRoutes = require('./src/hbs/routes/externalApi/Brands_RedeemRoutes');
+const authRoutesHBS = require("./src/hbs/routes/externalApi/Brands_RedeemRoutes");
 
 
 
