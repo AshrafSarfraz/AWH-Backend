@@ -17,6 +17,8 @@ const managerRoutes = require("./src/hr-system/routes/managerRoutes");
 // Hala B Saudi
 const brandRoutes = require('./src/hbs/routes/externalApi/Brands_RedeemRoutes');
 const authRoutesHBS = require("./src/hbs/routes/externalApi/Brands_RedeemRoutes");
+const phoneAuthRoutes = require("./src/hbs/routes/phoneAuth");
+
 
 
 
@@ -58,7 +60,7 @@ app.use("/api/approvals", approvalRoutes);
 // Hala B Saudi
 app.use("/auth", authRoutesHBS);
 app.use('/api/hbs', brandRoutes);
-
+app.use("/api/phoneAuth", phoneAuthRoutes);
 
 
 
