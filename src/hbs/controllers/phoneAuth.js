@@ -63,7 +63,7 @@ exports.requestOtp = async (req, res) => {
     const { phone } = req.body;
 
     if (!phone) {
-      return res.status(400).json({ message: "phone required hai" });
+      return res.status(400).json({ message: "Phone Number Require" });
     }
 
     const normalizedPhone = phone.trim();
@@ -72,16 +72,16 @@ exports.requestOtp = async (req, res) => {
     if (!user) {
       return res
         .status(404)
-        .json({ message: "Is phone number se koi user nahi mila" });
+        .json({ message: "No user found on this phone number" });
     }
 
     const now = Date.now();
     if (user.lastOtpSentAt) {
       const diff = now - user.lastOtpSentAt.getTime();
       if (diff < OTP_RESEND_COOLDOWN_MS) {
-        const remaining = Math.ceil((OTP_RESEND_COOLDOWN_MS - diff) / 1000);
+        const remaining = Math.ceil((OTP_RESEND_COOLDOWN_MS - diff) / 2000);
         return res.status(429).json({
-          message: `Please ${remaining} second wait karo phir OTP resend hoga`,
+          message: `Please ${remaining} second wait for resend otp`,
         });
       }
     }
@@ -98,12 +98,12 @@ exports.requestOtp = async (req, res) => {
     await user.save();
 
     return res.json({
-      message: "OTP bhej diya gaya hai",
+      message: "OTP sent",
       status: verification.status, // usually "pending"
     });
   } catch (err) {
     console.error("Request OTP error:", err);
-    return res.status(500).json({ message: "OTP bhejte waqt error aaya" });
+    return res.status(500).json({ message: "Error detect while sending otp" });
   }
 };
 
@@ -119,7 +119,7 @@ exports.verifyOtpAndLogin = async (req, res) => {
     if (!phone || !code) {
       return res
         .status(400)
-        .json({ message: "phone aur code dono required hain" });
+        .json({ message: "phone and code are require" });
     }
 
     const normalizedPhone = phone.trim();
@@ -128,7 +128,7 @@ exports.verifyOtpAndLogin = async (req, res) => {
     if (!user) {
       return res
         .status(404)
-        .json({ message: "Is phone number se koi user nahi mila" });
+        .json({ message: "No user found on this phone number" });
     }
 
     // Twilio se OTP verify
@@ -140,7 +140,7 @@ exports.verifyOtpAndLogin = async (req, res) => {
       });
 
     if (check.status !== "approved") {
-      return res.status(400).json({ message: "OTP ghalat ya expire ho gaya" });
+      return res.status(400).json({ message: "OTP wrong or expired" });
     }
 
     if (!user.isPhoneVerified) {
@@ -162,8 +162,6 @@ exports.verifyOtpAndLogin = async (req, res) => {
     });
   } catch (err) {
     console.error("Verify OTP error:", err);
-    return res.status(500).json({ message: "OTP verify karte waqt error aaya" });
+    return res.status(500).json({ message: "Verify OTP error " });
   }
 };
-
-
